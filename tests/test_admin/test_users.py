@@ -13,7 +13,7 @@ def client():
 
 def test_add_user(client):
 
-    user1 = {'name': "Vasyl", 'surname': "Goloborodko", 'nick': "vova"}
+    user1 = {'name': "Vasyl", 'surname': "Goloborodko", 'email': "vova@gov.ua"}
     client.post('/users/', json={'user': user1})
     resp = client.get('/user/0')
 
