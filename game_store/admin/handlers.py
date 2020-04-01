@@ -1,11 +1,23 @@
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api
 from flask import current_app, request
-from .models import Users
+
 
 class UserHandler(Resource):
 
     def get(self, user_id):
         return current_app.db['users'].get_by_id(user_id)
+
+    def put(self, user_id):
+        new_user_data = request.get_json()
+        try:
+            user = current_app.db['users'].get_by_id(user_id)
+            for i in new_user_data.keys():
+                user[i] = new_user_data[i]
+        except KeyError:
+            return '', 404
+
+
+
 
 
 class UserListHandler(Resource):
@@ -17,18 +29,6 @@ class UserListHandler(Resource):
         user_dict = request.get_json()
         data = user_dict['user']
         current_app.db['users'].insert(data)
-
-    def put(self, id):
-        parser = reqparse.RequestParser()
-        parser.add_argument("author")
-        parser.add_argument("quote")
-        params = parser.parse_args()
-        ai_quotes = current_app.db['users'].storage
-        for quote in ai_quotes:
-            if (id == quote["id"]):
-                quote["author"] = params["author"]
-                quote["quote"] = params["quote"]
-                return quote, 200
 
 
 
