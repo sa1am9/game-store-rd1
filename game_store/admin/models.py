@@ -43,7 +43,7 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-    _fields = {'name', 'surname', 'email'}
+    _fields = {'id','name', 'surname', 'email', 'password', 'status', }
 
     @property
     def storage(self):

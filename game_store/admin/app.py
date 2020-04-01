@@ -1,7 +1,7 @@
 from flask import Flask
 
-from .db import create_db
-from .handlers import register_handlers as reg_admin_handlers
+from game_store.admin.db import create_db
+from game_store.admin.handlers import register_handlers as reg_admin_handlers
 
 
 def create_app(name):
