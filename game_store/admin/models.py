@@ -43,7 +43,7 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-    _fields = {'id','name', 'surname', 'email', 'password', 'status', }
+    _fields = {'id','name', 'surname', 'email', 'password', 'status', 'active'}
 
     @property
     def storage(self):
@@ -56,4 +56,6 @@ class Users(BaseModel):
     def __init__(self):
         super().__init__()
         self._storage = {}
+
+
 
