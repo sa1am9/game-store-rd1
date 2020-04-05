@@ -57,5 +57,3 @@ class Users(BaseModel):
         super().__init__()
         self._storage = {}
 
-
-
