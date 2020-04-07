@@ -4,7 +4,7 @@ import pytest
 
 from unittest import mock
 
-from game_store.auth import encode_auth_token, decode_auth_token, InvalidToken, ExpiredToken
+from game_store.auth.token import encode_auth_token, decode_auth_token, InvalidToken, ExpiredToken
 
 
 @pytest.fixture(scope='function')
@@ -35,6 +35,7 @@ def test_invalid_token(config):
 def test_expired_token(config):
 
     with pytest.raises(ExpiredToken):
+
         user_data = 'some_name@adomain.com'
         encoded = encode_auth_token(user_data, config)
 

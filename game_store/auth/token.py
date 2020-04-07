@@ -35,7 +35,7 @@ def encode_auth_token(user_data, config):
             secret_key,
             algorithm='HS256'
         )
-    except Exception as e:
+    except Exception:
         raise
 
 
@@ -51,6 +51,5 @@ def decode_auth_token(auth_token, config):
         return payload['sub']
     except jwt.ExpiredSignatureError as error:
         raise ExpiredToken from error
-    except jwt.InvalidTokenError as error:
+    except (jwt.InvalidTokenError, jwt.DecodeError) as error:
         raise InvalidToken from error
-

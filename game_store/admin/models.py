@@ -8,6 +8,16 @@ class SelectItem:
         self._storage = storage
         self._field_name = field_name
 
+    def query(self, pred):
+
+        # return self._storage.values()
+        raise NotImplementedError
+
+    def fetchone(self, pred):
+
+        for item in self.query(pred=pred):
+            return item
+
 
 class BaseModel(metaclass=ABCMeta):
 
@@ -43,7 +53,7 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-    _fields = {'name', 'surname', 'email'}
+    _fields = {'name', 'surname', 'email', 'password'}
 
     @property
     def storage(self):

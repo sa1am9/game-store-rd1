@@ -2,6 +2,7 @@ from flask import Flask
 
 from .db import create_db
 from .handlers import register_handlers as reg_admin_handlers
+from ..auth.handlers import register_handlers as reg_auth_handlers
 
 
 def create_app(name):
@@ -12,7 +13,10 @@ def create_app(name):
         app.config['TESTING'] = True
 
     app.db = create_db()
+
     reg_admin_handlers(app)
+    reg_auth_handlers(app)
+
     return app
 
 
