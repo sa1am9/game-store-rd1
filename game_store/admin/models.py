@@ -10,7 +10,6 @@ class SelectItem:
 
     def query(self, pred):
 
-        # return self._storage.values()
         raise NotImplementedError
 
     def fetchone(self, pred):
@@ -31,6 +30,11 @@ class BaseModel(metaclass=ABCMeta):
     def fields(self):
         pass
 
+    @property
+    @abstractmethod
+    def primary_field_name(self):
+        pass
+
     def __init__(self):
         self._primary_key = 0
 
@@ -43,6 +47,7 @@ class BaseModel(metaclass=ABCMeta):
 
     def insert(self, data):
 
+        data.update({self.primary_field_name: self._primary_key})
         self.storage[self._primary_key] = data
         self._primary_key += 1
 
@@ -62,6 +67,10 @@ class Users(BaseModel):
     @property
     def fields(self):
         return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'user_id'
 
     def __init__(self):
         super().__init__()

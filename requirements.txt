@@ -1,3 +1,4 @@
 flask-restful
 pyjwt
 Flask-HTTPAuth
+pyyaml

@@ -20,7 +20,7 @@ def client(app_config):
     app = create_app('Test-Auth')
     app.config.from_mapping(app_config)
     with app.test_client() as c:
-        c.post('/users/', json={'user': {'name': 'Root', 'email': 'root@example.com', 'password': 'Qwerty12344556'}})
+        c.application.db['users'].insert({'name': 'Root', 'email': 'root@example.com', 'password': 'Qwerty12344556'})
         yield c
 
 
