@@ -33,6 +33,11 @@ def create_app(name, config=None):
     return app
 
 
+def register_superuser_account(db):
+
+    pass
+
+
 def read_yaml_config(config_fo):
 
     if config_fo is None:
@@ -64,7 +69,11 @@ def main(app_name='Game-Store'):
 
     args = arg_parse(app_name)
     config = read_yaml_config(args.config)
-    create_app(app_name, config=config).run(debug=True)
+    app = create_app(app_name, config=config)
+
+    register_superuser_account(app.db)
+
+    app.run(debug=True)
 
 
 if __name__ == '__main__':

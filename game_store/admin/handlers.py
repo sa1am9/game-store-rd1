@@ -9,7 +9,7 @@ class UserHandler(Resource):
     @auth.login_required
     def get(self, user_id):
 
-        # current_app.auth_checker.check('Users', 'read', g.user['user_id'])
+        current_app.auth_checker.check('Users', 'read', g.user['user_id'])
         return current_app.db['users'].get_by_id(user_id)
 
 
