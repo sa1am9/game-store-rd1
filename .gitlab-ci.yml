@@ -30,7 +30,7 @@ test:
   script:
     - make test-cov
     - make test-junit
-    - flake8 game_store/admin
+    - flake8 game_store
 #    - exit 1
   except:
     - master
