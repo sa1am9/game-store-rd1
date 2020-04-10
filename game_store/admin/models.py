@@ -109,3 +109,20 @@ class Resources(BaseModel):
     def __init__(self):
         super().__init__()
         self._storage = {}
+
+
+class UserRoles(BaseModel):
+
+    _fields = {'id, name'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}

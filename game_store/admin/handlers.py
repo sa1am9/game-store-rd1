@@ -82,7 +82,7 @@ class UserSearchHandler(Resource):
         users_list = list()
         all_users = current_app.db['users'].storage
         for id, fields in all_users.items():
-            if fields['active'] and fields[field]==value:
+            if fields['active'] and fields[field] == value:
                 users_list.append(fields)
         return jsonify(users_list)
 
