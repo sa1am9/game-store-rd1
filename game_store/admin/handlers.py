@@ -1,21 +1,22 @@
 from flask_restful import Resource, Api
-<<<<<<< HEAD
+
 from flask import current_app, request, jsonify
-=======
+
 from flask import current_app, request, g
 
 from ..auth import auth
->>>>>>> 84e5bca94b88934d03019ec720ed04e965eff8f2
+
 
 
 class UserHandler(Resource):
 
-<<<<<<< HEAD
     def delete(self, user_id):
         try:
             user = current_app.db['users'].get_by_id(user_id)
             user['active'] = False
         except KeyError:
+            return '', 404
+        except Exception:
             return '', 404
 
 
@@ -26,7 +27,9 @@ class UserHandler(Resource):
                 return user
             else:
                 return '', 404
-        except:
+        except KeyError:
+            return '', 404
+        except Exception:
             return '', 404
 
     def put(self, user_id):
@@ -40,15 +43,17 @@ class UserHandler(Resource):
                 return '', 404
         except KeyError:
             return '', 404
+        except Exception:
+            return '', 404
 
 
-=======
+
     @auth.login_required
     def get(self, user_id):
 
         current_app.auth_checker.check('Users', 'read', g.user['user_id'])
         return current_app.db['users'].get_by_id(user_id)
->>>>>>> 84e5bca94b88934d03019ec720ed04e965eff8f2
+
 
 
 class UserListHandler(Resource):
@@ -57,7 +62,9 @@ class UserListHandler(Resource):
     def get(self):
         try:
             return current_app.db['users'].storage
-        except:
+        except KeyError:
+            return '', 404
+        except Exception:
             return '', 404
 
     @auth.login_required
