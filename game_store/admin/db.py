@@ -1,8 +1,11 @@
-from .models import Users
+from .models import Users, Roles, Resources
 
 
 def create_db():
 
     return {
-        'users': Users()
+        'users': Users(),
+        'roles': Roles(),
+        'resources': Resources(),
+
     }

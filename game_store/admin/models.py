@@ -8,6 +8,15 @@ class SelectItem:
         self._storage = storage
         self._field_name = field_name
 
+    def query(self, pred):
+
+        raise NotImplementedError
+
+    def fetchone(self, pred):
+
+        for item in self.query(pred=pred):
+            return item
+
 
 class BaseModel(metaclass=ABCMeta):
 
@@ -19,6 +28,11 @@ class BaseModel(metaclass=ABCMeta):
     @property
     @abstractmethod
     def fields(self):
+        pass
+
+    @property
+    @abstractmethod
+    def primary_field_name(self):
         pass
 
     def __init__(self):
@@ -33,6 +47,7 @@ class BaseModel(metaclass=ABCMeta):
 
     def insert(self, data):
 
+        data.update({self.primary_field_name: self._primary_key})
         self.storage[self._primary_key] = data
         self._primary_key += 1
 
@@ -43,7 +58,28 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-    _fields = {'name', 'surname', 'email'}
+    _fields = {'id', 'name', 'surname', 'email', 'password', 'status', 'active'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'user_id'
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
+
+class Roles(BaseModel):
+
+    _fields = {'id, name'}
 
     @property
     def storage(self):
@@ -57,3 +93,36 @@ class Users(BaseModel):
         super().__init__()
         self._storage = {}
 
+
+class Resources(BaseModel):
+
+    _fields = {'id, name'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
+
+class UserRoles(BaseModel):
+
+    _fields = {'id, name'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
