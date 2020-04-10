@@ -58,11 +58,7 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-<<<<<<< HEAD
-    _fields = {'id','name', 'surname', 'email', 'password', 'status', 'active'}
-=======
-    _fields = {'name', 'surname', 'email', 'password'}
->>>>>>> 84e5bca94b88934d03019ec720ed04e965eff8f2
+    _fields = {'id', 'name', 'surname', 'email', 'password', 'status', 'active'}
 
     @property
     def storage(self):
@@ -80,3 +76,36 @@ class Users(BaseModel):
         super().__init__()
         self._storage = {}
 
+
+class Roles(BaseModel):
+
+    _fields = {'id, name'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
+
+class Resources(BaseModel):
+
+    _fields = {'id, name'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
