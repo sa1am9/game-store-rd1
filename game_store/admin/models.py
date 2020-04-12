@@ -34,10 +34,6 @@ class BaseModel(metaclass=ABCMeta):
     def fields(self):
         pass
 
-    @property
-    @abstractmethod
-    def primary_field_name(self):
-        pass
 
     def __init__(self):
         self._primary_key = 0
@@ -62,7 +58,7 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
-    _fields = {'id', 'name', 'surname', 'email', 'password', 'status', 'active'}
+    _fields = {'user_id', 'name', 'surname', 'email', 'password', 'status', 'active'}
 
     @property
     def storage(self):
@@ -84,6 +80,13 @@ class Users(BaseModel):
         data['active'] = True
         super().insert(data)
 
+    def hide(self, primary_key):
+        self._storage[primary_key]['active'] = False
+
+    def search(self, field, key):
+        result = SelectItem(self._storage, field)
+        return result.query(lambda x: x == key)
+
 
 class Roles(BaseModel):
 
@@ -97,15 +100,21 @@ class Roles(BaseModel):
     def fields(self):
         return self._fields
 
+    @property
+    def primary_field_name(self):
+        return 'role_id'
+
     def __init__(self):
         super().__init__()
         self._storage = {}
 
+    def delete(self, primary_key):
+        del self._storage[primary_key]
 
 
 class Resources(BaseModel):
 
-    _fields = {'id, name'}
+    _fields = {'resources_id, name'}
 
     @property
     def storage(self):
@@ -114,6 +123,10 @@ class Resources(BaseModel):
     @property
     def fields(self):
         return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'resources_id'
 
     def __init__(self):
         super().__init__()
@@ -122,7 +135,7 @@ class Resources(BaseModel):
 
 class UserRoles(BaseModel):
 
-    _fields = {'id, name'}
+    _fields = {'ur_id, name'}
 
     @property
     def storage(self):
@@ -131,6 +144,10 @@ class UserRoles(BaseModel):
     @property
     def fields(self):
         return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'ur_id'
 
     def __init__(self):
         super().__init__()

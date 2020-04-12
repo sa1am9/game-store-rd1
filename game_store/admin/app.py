@@ -4,13 +4,10 @@ import typing
 
 from flask import Flask
 
-
-
 from game_store.admin.db import create_db
 from game_store.admin.handlers import register_handlers as reg_admin_handlers
 from game_store.auth.handlers import register_handlers as reg_auth_handlers
 from game_store.auth.permission import AuthChecker
-
 
 
 def create_app(name, config=None):
