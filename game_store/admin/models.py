@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-
+import pdb
 
 class SelectItem:
 
@@ -9,11 +9,15 @@ class SelectItem:
         self._field_name = field_name
 
     def query(self, pred):
+        find_data = {}
+        for id, elem in self._storage.items():
+            if self._field_name in elem and pred(elem[self._field_name]):
+                find_data[id] = elem
+        # pdb.set_trace()  #if smth goes wrong(debug)
+        return find_data.values()
 
-        raise NotImplementedError
 
     def fetchone(self, pred):
-
         for item in self.query(pred=pred):
             return item
 
@@ -53,8 +57,8 @@ class BaseModel(metaclass=ABCMeta):
 
     def get_by_id(self, primary_key):
 
-        return self.storage[primary_key]
-
+        if self.storage[primary_key]['active']:
+            return self.storage[primary_key]
 
 class Users(BaseModel):
 
@@ -76,6 +80,10 @@ class Users(BaseModel):
         super().__init__()
         self._storage = {}
 
+    def insert(self, data):
+        data['active'] = True
+        super().insert(data)
+
 
 class Roles(BaseModel):
 
@@ -92,6 +100,7 @@ class Roles(BaseModel):
     def __init__(self):
         super().__init__()
         self._storage = {}
+
 
 
 class Resources(BaseModel):

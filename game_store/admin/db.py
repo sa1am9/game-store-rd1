@@ -5,7 +5,6 @@ def create_db():
 
     return {
         'users': Users(),
-        'roles': Roles(),
-        'resources': Resources(),
-
+        # 'roles': Roles(),
+        # 'resources': Resources(),
     }
