@@ -58,7 +58,11 @@ class BaseModel(metaclass=ABCMeta):
 
 class Users(BaseModel):
 
+
     _fields = {'user_id', 'name', 'surname', 'email', 'password', 'status', 'active'}
+
+
+
 
     @property
     def storage(self):
@@ -75,6 +79,7 @@ class Users(BaseModel):
     def __init__(self):
         super().__init__()
         self._storage = {}
+
 
     def insert(self, data):
         data['active'] = True
