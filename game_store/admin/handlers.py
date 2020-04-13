@@ -60,6 +60,17 @@ class UserListHandler(Resource):
         current_app.db['users'].insert(data)
 
 
+class UserRegisterHandler(Resource):
+    def post(self):
+        user_dict = request.get_json()
+        data = user_dict['user']
+        if current_app.db['users'].email.fetchone(lambda x: x == data['email']):
+            return "Yje takoi email est, poka", 409
+        current_app.db['users'].insert(data)
+        return '', 200
+
+
+
 class UserSearchHandler(Resource):
 
     @auth.login_required
@@ -188,5 +199,10 @@ def register_handlers(app):
     api.add_resource(UserHandler, '/user/<int:user_id>')
     api.add_resource(UserListHandler, '/users/')
     api.add_resource(UserSearchHandler, '/search/<field>/<value>')
+    api.add_resource(UserRegisterHandler, '/register/')
+    api.add_resource(RoleHandler, '/role/<string:role_name>')
+    api.add_resource(RoleListHandler, '/roles/')
+    api.add_resource(ResourceHandler, '/resource/<string:resource_name>')
+    api.add_resource(ResourceListHandler, '/resources/')
 
     return api
