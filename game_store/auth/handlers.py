@@ -16,7 +16,6 @@ class LoginHandler(Resource):
 def register_handlers(app):
 
     bp = Blueprint('auth', 'AUTHENTICATION')
-
     api = Api(bp)
     api.add_resource(LoginHandler, '/login')
 

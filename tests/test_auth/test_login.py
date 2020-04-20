@@ -2,7 +2,6 @@ import base64
 from game_store.auth.token import decode_auth_token
 
 
-
 def test_login_with_email_password(client):
 
     username = 'root@example.com'

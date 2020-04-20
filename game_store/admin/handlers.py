@@ -70,7 +70,6 @@ class UserRegisterHandler(Resource):
         return '', 200
 
 
-
 class UserSearchHandler(Resource):
 
     @auth.login_required
@@ -95,7 +94,6 @@ class RoleListHandler(Resource):
         user_dict = request.get_json()
         data = user_dict['role']
         current_app.db['roles'].insert(data)
-
 
 
 class RoleHandler(Resource):

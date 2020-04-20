@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 import pdb
 
+
 class SelectItem:
 
     def __init__(self, storage, field_name):
@@ -15,7 +16,6 @@ class SelectItem:
                 find_data[id] = elem
         # pdb.set_trace()  #if smth goes wrong(debug)
         return find_data.values()
-
 
     def fetchone(self, pred):
         for item in self.query(pred=pred):
@@ -33,7 +33,6 @@ class BaseModel(metaclass=ABCMeta):
     @abstractmethod
     def fields(self):
         pass
-
 
     def __init__(self):
         self._primary_key = 0
@@ -56,12 +55,10 @@ class BaseModel(metaclass=ABCMeta):
         if self.storage[primary_key]['active']:
             return self.storage[primary_key]
 
+
 class Users(BaseModel):
 
-
     _fields = {'user_id', 'name', 'surname', 'email', 'password', 'status', 'active'}
-
-
 
 
     @property

@@ -2,6 +2,7 @@ import os
 from pytest import fixture
 from game_store.admin.app import create_app
 
+
 @fixture(scope='function')
 def config():
     return {
@@ -10,20 +11,10 @@ def config():
     }
 
 
-@fixture()
-def app_config():
-
-    return {
-        'JWT_SECRET_KEY': '12345677890',
-        'JWT_TTL_SECONDS': 300
-    }
-
-
 @fixture(scope='function')
-def client(app_config):
-
+def client(config):
     app = create_app('Test-Auth')
-    app.config.from_mapping(app_config)
+    app.config.from_mapping(config)
     with app.test_client() as c:
         c.application.db['users'].insert({'name': 'Root', 'email': 'root@example.com', 'password': 'Qwerty12344556'})
         yield c

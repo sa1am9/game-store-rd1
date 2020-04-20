@@ -4,7 +4,6 @@ import pytest
 from game_store.auth.token import encode_auth_token, decode_auth_token, InvalidToken, ExpiredToken
 
 
-
 def test_decode_encode_token(config):
 
     user_data = 'some_name@adomain.com'
