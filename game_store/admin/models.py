@@ -116,7 +116,7 @@ class Roles(BaseModel):
 
 class Resources(BaseModel):
 
-    _fields = {'resources_id, name'}
+    _fields = {'resource_id, name'}
 
     @property
     def storage(self):
@@ -154,3 +154,47 @@ class UserRoles(BaseModel):
     def __init__(self):
         super().__init__()
         self._storage = {}
+
+
+class Permissions(BaseModel):
+
+    _fields = {'permission_id', 'resource', 'action'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'permission_id'
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
+
+
+class RolePermissions(BaseModel):
+
+    _fields = {'role-permission_id', 'role', 'perm'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'role-permission_id'
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
