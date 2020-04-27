@@ -1,4 +1,4 @@
-from .models import Users, Roles, Resources, UserRoles, Permissions, RolePermissions
+from .models import Users, Roles, Resources, UserRoles, Permissions, RolePermissions, Tokens
 
 
 def create_db():
@@ -7,8 +7,9 @@ def create_db():
         'users': Users(),
         'roles': Roles(),
         'resources': Resources(),
-        'user-roles': UserRoles(),
-        'role-perms': RolePermissions(),
-        'perms': Permissions(),
+        'user_roles': UserRoles(),
+        'roles_permissions': RolePermissions(),
+        'permissions': Permissions(),
+        'tokens': Tokens()
 
     }

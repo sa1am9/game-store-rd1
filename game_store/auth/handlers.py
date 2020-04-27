@@ -15,10 +15,13 @@ class LoginHandler(Resource):
 class LogoutHandler(Resource):
     @auth.login_required
     def post(self):
-        config = current_app.config
-        token = encode_auth_token(g.user['email'], config, True).decode()
-        return {'token': token}
+        user_auth = request.headers.get('Authorization')
+        token = user_auth.split()[1]
 
+        token_in_db = current_app.db['tokens'].token.fetchone(lambda x: x == token)
+        token_id = token_in_db['token_id']
+
+        current_app.db['tokens'].deactivate(token_id)
 
 
 class UserRegisterHandler(Resource):
@@ -28,7 +31,11 @@ class UserRegisterHandler(Resource):
         if current_app.db['users'].email.fetchone(lambda x: x == data['email']):
             return "Yje takoi email est, poka", 409
         current_app.db['users'].insert(data)
-        return '', 200
+        user_data = user_dict['user']
+        config = current_app.config
+        token = encode_auth_token(user_data['email'], config).decode()
+        current_app.db['tokens'].insert({'token': token})
+        return {'token': token}
 
 
 def register_handlers(app):
@@ -42,3 +49,4 @@ def register_handlers(app):
     app.register_blueprint(bp)
 
     return api
+ 

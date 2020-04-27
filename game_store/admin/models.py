@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 import pdb
-
+import datetime
 
 class SelectItem:
 
@@ -92,7 +92,7 @@ class Users(BaseModel):
 
 class Roles(BaseModel):
 
-    _fields = {'id, name'}
+    _fields = {'role_id', 'name'}
 
     @property
     def storage(self):
@@ -137,7 +137,7 @@ class Resources(BaseModel):
 
 class UserRoles(BaseModel):
 
-    _fields = {'ur_id, name'}
+    _fields = {'ur_id', 'username', 'roles'}
 
     @property
     def storage(self):
@@ -158,7 +158,7 @@ class UserRoles(BaseModel):
 
 class Permissions(BaseModel):
 
-    _fields = {'permission_id', 'resource', 'action'}
+    _fields = {'permission_id', 'name', 'resource', 'action'}
 
     @property
     def storage(self):
@@ -180,7 +180,7 @@ class Permissions(BaseModel):
 
 class RolePermissions(BaseModel):
 
-    _fields = {'role-permission_id', 'role', 'perm'}
+    _fields = {'role-permission_id', 'role', 'permission'}
 
     @property
     def storage(self):
@@ -193,6 +193,37 @@ class RolePermissions(BaseModel):
     @property
     def primary_field_name(self):
         return 'role-permission_id'
+
+    def __init__(self):
+        super().__init__()
+        self._storage = {}
+
+
+class Tokens(BaseModel):
+
+    _fields = {'token_id', 'token', 'date_create', 'status'}
+
+    @property
+    def storage(self):
+        return self._storage
+
+    @property
+    def fields(self):
+        return self._fields
+
+    @property
+    def primary_field_name(self):
+        return 'token_id'
+
+    def insert(self, data):
+
+        data = dict(data)
+        data['status'] = True
+        data['date_create'] = datetime.datetime.now()
+        super().insert(data)
+
+    def deactivate(self, primary_key):
+        self._storage[primary_key]['status'] = False
 
     def __init__(self):
         super().__init__()
