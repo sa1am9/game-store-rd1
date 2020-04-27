@@ -121,7 +121,7 @@ class RoleHandler(Resource):
     def delete(self, role_name):
         try:
             current_app.auth_checker.check('Role', 'delete', g.user['user_id'])
-            current_app.db['roles'].delete(role_name)
+            current_app.db['roles'].delete(int(role_name))
         except KeyError:
             return '', 404
         except Exception:

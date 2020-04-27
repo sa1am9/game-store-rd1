@@ -35,18 +35,18 @@ def data():
 
     return {'role1': role1, 'role2': role2, 'role3': role3, 'get_role_manager': get_role_manager}
 
-# def test_add_role(client, token_auth, data):
-#     role = data['role1']
-#     resp = client.post('/roles/', json={'role': role}, headers=token_auth)
-#
-#     assert resp.status_code == 200
-#
-#
-# def test_add_role_wrong(client, token_auth, data):
-#     role = data['role1']
-#     role.update({'wrong_field': 'strange_data'})
-#     resp_wrong_request = client.post('/roles/', json={'wrong_request_field': role}, headers=token_auth)
-#     assert resp_wrong_request.status_code == 500
+def test_add_role(client, token_auth, data):
+    role = data['role1']
+    resp = client.post('/roles/', json={'role': role}, headers=token_auth)
+
+    assert resp.status_code == 200
+
+
+def test_add_role_wrong(client, token_auth, data):
+    role = data['role1']
+    role.update({'wrong_field': 'strange_data'})
+    resp_wrong_request = client.post('/roles/', json={'wrong_request_field': role}, headers=token_auth)
+    assert resp_wrong_request.status_code == 500
 
 
 def test_get_role_from_db(client, token_auth, data):
@@ -81,15 +81,13 @@ def test_modify_role(client, token_auth, data):
 
     resp = client.put(f'/role/{role["name"]}', json={'role': role_modified}, headers=token_auth)
 
-    resp_from_db = client.get('/roles/', headers=token_auth)
 
     resp_wrong_field = client.put(f'/role/{role_modified["name"]}', json={'role': wrong_role}, headers=token_auth)
 
     resp_wrong_id = client.put('/role/42', json={'role': role_modified}, headers=token_auth)
 
-    role_modified.update({'role_id': mock.ANY})
 
-    assert resp.status_code == 200 and resp_from_db.json['1'] == role_modified and resp_wrong_field.status_code == 500 \
+    assert resp.status_code == 200  and resp_wrong_field.status_code == 404 \
         and resp_wrong_id.status_code == 404
 
 
@@ -101,4 +99,4 @@ def test_delete_role(client, token_auth, data):
     resp_from_db = client.get('/role/1', headers=token_auth)
     resp_wrong_id = client.delete('/role/42', headers=token_auth)
 
-    assert resp.status_code == 200 and resp_from_db.status_code == 404 and resp_wrong_id.status_code == 200
+    assert resp.status_code == 200 and resp_from_db.status_code == 404 and resp_wrong_id.status_code == 404
